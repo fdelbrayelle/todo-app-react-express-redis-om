@@ -37,10 +37,11 @@ app.post('/api/todos/:id', async (req, res) => {
   await client.open('redis://127.0.0.1:6379');
   const todoRepository = client.fetchRepository(todoSchema);
   const todo = await todoRepository.fetch(req.params.id);
-  todo.bodyText = req.body.bodyText ?? null;
-  todo.completed = req.body.completed ?? null;
-  await todoRepository.save(todo);
-  res.status(200).send(todo);
+  todo.id = req.body.data.id ?? null;
+  todo.bodyText = req.body.data.bodyText ?? null;
+  todo.completed = req.body.data.completed ?? null;
+  const updatedTodo = await todoRepository.save(todo);
+  res.status(200).send(updatedTodo);
 });
 
 app.get('/api/todos', async (req, res) => {

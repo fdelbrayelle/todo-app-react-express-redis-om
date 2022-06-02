@@ -33,9 +33,22 @@ const Item: React.FC<Props> = ({ todo }) => {
     }
   }
 
-  const submitEditText = (e: React.KeyboardEvent<HTMLInputElement>): void => {
+  const submitEditText = (e: React.KeyboardEvent<HTMLInputElement>, id: Todo['id'], completed: Todo['completed']): void => {
     if (e.key === 'Enter' || e.key === 'Escape') {
       if (e.currentTarget.value.trim().length > 0) {
+        axios.post('http://localhost:5000/api/todos/' + todo.id, {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            id: id,
+            bodyText: e.currentTarget.value.trim(),
+            completed: completed
+          }
+        }).catch(function (err) {
+          console.error(err)
+        })
+
         setState({ onEdit: false })
       }
     }
@@ -62,7 +75,20 @@ const Item: React.FC<Props> = ({ todo }) => {
     const toggled: TodoListType = appState.todoList.map((t) => {
       // search clicked item by id...
       if (t.id === id) {
-        // change complated status only clicked item
+        axios.post('http://localhost:5000/api/todos/' + id, {
+          headers: {
+            "Content-Type": "application/json"
+          },
+          data: {
+            id: id,
+            bodyText: t.bodyText,
+            completed: !t.completed
+          }
+        }).catch(function (err) {
+          console.error(err)
+        })
+        
+        // change completed status only clicked item
         return { ...t, completed: !t.completed }
         // return other item without any changes
       } else {
@@ -136,7 +162,7 @@ const Item: React.FC<Props> = ({ todo }) => {
           className="edit"
           value={todo.bodyText}
           onChange={(e: React.ChangeEvent<HTMLInputElement>) => handleTodoTextEdit(e, todo.id)} /* eslint-disable-line prettier/prettier */
-          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => submitEditText(e)} /* eslint-disable-line prettier/prettier */
+          onKeyDown={(e: React.KeyboardEvent<HTMLInputElement>) => submitEditText(e, todo.id, todo.completed)} /* eslint-disable-line prettier/prettier */
           data-cy="todo-edit-input"
           data-testid="todo-edit-input"
         />
