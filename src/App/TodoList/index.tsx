@@ -7,6 +7,7 @@ import { recoilState } from '../../dataStructure'
 
 import Item from './Item'
 import { Layout } from './style'
+import axios from "axios"
 
 interface Props {
   path: Routes
@@ -14,6 +15,25 @@ interface Props {
 
 const TodoList: React.FC<Props> = ({ path }) => {
   const [appState, setAppState] = useRecoilState<AppState>(recoilState)
+
+  React.useEffect(() => {
+    axios.get('http://localhost:5000/api/todos', {
+      headers: {
+        "Content-Type": "application/json"
+      },
+      params: {
+        "all": true
+      }
+    }).then(function(res) {
+      const todos: Todo[] = []
+      res.data.forEach((d: any) => {
+        todos.push({ id: d.entityId, bodyText: d.title, completed: d.completed })
+      })
+      setAppState({ todoList: todos })
+    }).catch(function (err) {
+      console.error(err)
+    });
+  }, []);
 
   function toggleAllCheckbox(e: React.ChangeEvent<HTMLInputElement>): void { /* eslint-disable-line prettier/prettier */
     // reverse all todo.completed: boolean flag
@@ -33,7 +53,7 @@ const TodoList: React.FC<Props> = ({ path }) => {
         />
         <label htmlFor="toggle-all">Mark all as complete</label>
         <ul className="todo-list" data-testid="todo-list">
-          {appState.todoList
+          {appState.todoList && appState.todoList
             .filter((t: Todo): boolean => {
               switch (path) {
                 case '/':

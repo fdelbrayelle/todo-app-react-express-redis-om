@@ -1,7 +1,9 @@
 const { Entity, Client, Schema } = require('redis-om');
 const express = require('express');
+const cors = require('cors');
 const app = express();
 app.use(express.json());
+app.use(cors());
 const port = process.env.PORT || 5000;
 
 class Todo extends Entity {}
@@ -41,7 +43,6 @@ app.post('/api/todos/:id', async (req, res) => {
 });
 
 app.get('/api/todos', async (req, res) => {
-  console.log("get todos!");
   await client.open('redis://127.0.0.1:6379');
   const todoRepository = client.fetchRepository(todoSchema);
   await todoRepository.createIndex();
