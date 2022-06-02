@@ -5,6 +5,7 @@ import type { AppState, Todo, TodoListType } from '../../../dataStructure'
 import { recoilState } from '../../../dataStructure'
 
 import { Layout } from './style'
+import axios from 'axios';
 
 interface Props {
   todo: Todo
@@ -73,6 +74,8 @@ const Item: React.FC<Props> = ({ todo }) => {
   }
 
   const removeItem = (terminate: Todo['id']): void => {
+    axios.delete('http://localhost:5000/api/todos/' + terminate);
+
     const removed: TodoListType = appState.todoList.filter(
       (t: Todo): boolean => t.id !== terminate
     )
