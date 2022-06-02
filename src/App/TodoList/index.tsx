@@ -27,13 +27,13 @@ const TodoList: React.FC<Props> = ({ path }) => {
     }).then(function(res) {
       const todos: Todo[] = []
       res.data.forEach((d: any) => {
-        todos.push({ id: d.entityId, bodyText: d.title, completed: d.completed })
+        todos.push({ id: d.entityId, bodyText: d.bodyText, completed: d.completed })
       })
       setAppState({ todoList: todos })
     }).catch(function (err) {
       console.error(err)
-    });
-  }, []);
+    })
+  }, [])
 
   function toggleAllCheckbox(e: React.ChangeEvent<HTMLInputElement>): void { /* eslint-disable-line prettier/prettier */
     // reverse all todo.completed: boolean flag

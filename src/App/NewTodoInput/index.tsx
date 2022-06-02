@@ -6,6 +6,7 @@ import { recoilState } from '../../dataStructure'
 import { UUID } from '../../functions'
 
 import { Layout } from './style'
+import axios from 'axios';
 
 const NewTodoTextInput: React.FC = () => {
   const [appState, setAppState] = useRecoilState<AppState>(recoilState)
@@ -21,6 +22,15 @@ const NewTodoTextInput: React.FC = () => {
         completed: false,
         id: UUID(),
       }
+
+      axios.put('http://localhost:5000/api/todos', {
+        headers: {
+          "Content-Type": "application/json"
+        },
+        data: todo
+      }).catch(function (err) {
+        console.error(err)
+      })
 
       // add new TODO to entire TodoList
       setAppState({ todoList: [todo, ...appState.todoList] })

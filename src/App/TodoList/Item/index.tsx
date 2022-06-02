@@ -74,7 +74,7 @@ const Item: React.FC<Props> = ({ todo }) => {
   }
 
   const removeItem = (terminate: Todo['id']): void => {
-    axios.delete('http://localhost:5000/api/todos/' + terminate);
+    axios.delete('http://localhost:5000/api/todos/' + terminate)
 
     const removed: TodoListType = appState.todoList.filter(
       (t: Todo): boolean => t.id !== terminate

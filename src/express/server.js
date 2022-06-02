@@ -9,7 +9,8 @@ const port = process.env.PORT || 5000;
 class Todo extends Entity {}
 
 const todoSchema = new Schema(Todo, {
-  title: { type: 'string' },
+  id: { type: 'string' },
+  bodyText: { type: 'string' },
   completed: { type: 'boolean' }
 });
 
@@ -20,7 +21,7 @@ const client = new Client();
 app.put('/api/todos', async (req, res) => {
   await client.open('redis://127.0.0.1:6379');
   const todoRepository = client.fetchRepository(todoSchema);
-  const todo = await todoRepository.createAndSave(req.body);
+  const todo = await todoRepository.createAndSave(req.body.data);
   await client.close();
   res.status(201).json(todo)
 });
@@ -36,7 +37,7 @@ app.post('/api/todos/:id', async (req, res) => {
   await client.open('redis://127.0.0.1:6379');
   const todoRepository = client.fetchRepository(todoSchema);
   const todo = await todoRepository.fetch(req.params.id);
-  todo.title = req.body.title ?? null;
+  todo.bodyText = req.body.bodyText ?? null;
   todo.completed = req.body.completed ?? null;
   await todoRepository.save(todo);
   res.status(200).send(todo);
