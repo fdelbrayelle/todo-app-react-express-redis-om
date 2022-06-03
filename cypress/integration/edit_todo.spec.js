@@ -41,6 +41,7 @@ context('Edit Todo', () => {
   })
 
   it('can not enter blank input', () => {
+    cy.once('uncaught:exception', () => false);
     cy.get('[data-cy=todo-item]:nth-of-type(3)')
       .find('[data-cy=todo-body-text]')
       .should('contain', 'one')

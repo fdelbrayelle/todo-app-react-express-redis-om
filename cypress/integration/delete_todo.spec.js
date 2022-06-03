@@ -4,6 +4,7 @@ context('Delete Todo', () => {
   })
 
   it('can delete mouse-hovering todo by push [x] button', () => {
+    cy.once('uncaught:exception', () => false);
     cy.get('[data-cy=todo-item]:nth-of-type(3)')
       .find('[data-cy=delete-todo-btn]')
       .click({ force: true }) // Actually this bth is hidden until invole :hover selector. but sypress struggling at the point

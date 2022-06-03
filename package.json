@@ -49,7 +49,7 @@
     "typescript": "^4.6.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "HOST=localhost react-scripts start",
     "express": "node ./src/express/server.js",
     "build": "react-scripts build",
     "test": "react-scripts test",

@@ -4,6 +4,7 @@ context('Mobile Real World Usecase', () => {
     cy.viewport('iphone-6')
   })
   it('will try all function in one session', () => {
+    cy.once('uncaught:exception', () => false);
     cy.percySnapshot('Moble 3 Todo Items')
     // remain task counter can display correct number
     cy.get('[data-cy=remaining-uncompleted-todo-count]').should('contain', '3')
