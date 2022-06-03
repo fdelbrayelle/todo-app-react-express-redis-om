@@ -1,6 +1,6 @@
 # ToDo App
 
-This a ToDo app using React (with Typescript) and [Redis OM](https://github.com/redis/redis-om-node).
+This a ToDo app using React (with Typescript), Express and [Redis OM](https://github.com/redis/redis-om-node).
 
 ## Running
 
