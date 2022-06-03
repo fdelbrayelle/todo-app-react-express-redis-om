@@ -8,6 +8,8 @@ Launch `yarn install` to install all the dependencies.
 
 Launch Redis Stack with `docker-compose -f redis-stack.yml up`.
 
+Use `redis-cli` to connect to `localhost:6379` and browse Redis. You can run the following to install Redis CLI on Ubuntu: `sudo apt-get install redis-tools`.
+
 Launch the Express back-end with `yarn run express` (port: 5000). To test:
 - Create a todo: `curl -XPUT localhost:5000/api/todos --data '{"title": "some todo", "completed": false}' -H 'Content-Type: application/json'`
 - Delete a todo: `curl -XDELETE localhost:5000/api/todos/TODO_ID`
